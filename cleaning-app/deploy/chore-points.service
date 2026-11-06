@@ -1,0 +1,24 @@
+[Unit]
+Description=Chore Points (household chore tracker)
+After=network.target
+
+[Service]
+Type=simple
+User=chores
+Group=chores
+WorkingDirectory=/opt/chore-points
+ExecStart=/usr/bin/python3 /opt/chore-points/server.py
+Environment=PORT=8080
+Environment=DB_PATH=/var/lib/chore-points/chores.db
+Restart=on-failure
+RestartSec=3
+
+# Light hardening. StateDirectory creates /var/lib/chore-points and keeps it writable.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+StateDirectory=chore-points
+
+[Install]
+WantedBy=multi-user.target
